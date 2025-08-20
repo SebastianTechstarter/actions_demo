@@ -7,12 +7,20 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: meinErsterSchritt
-              run: echo "Hello World!"
+              run: echo "Hello World, this is job one!"
     meinZweiterJob:
         needs: meinErsterJob
         runs-on: ubuntu-latest
         steps:
             - name: derErsteSchrittVonJob2
-              run: echo "Hallo ich bin der erste Schritt aus dem zweiten job"
+              run: echo "Hallo, ich bin der erste Schritt aus dem zweiten Job!"
             - name: derZweiteSchrittVonJob2
-              run: echo "Hallo ich bin der zweite Schritt aus dem zweiten job"
+              run: echo "Hallo, ich bin der zweite Schritt aus dem zweiten Job!"
+    meinDritterJob:
+        needs: meinZweiterJob
+        runs-on: ubuntu-latest
+        steps:
+            - name: derErsteSchrittVonJob3
+              run: echo "Hallo, hier erscheint gleich das aktuelle Datum..."
+            - name: derZweiteSchrittVonJob3
+              run: date
