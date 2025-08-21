@@ -33,3 +33,9 @@ jobs:
               run: |
                 scp -i ~/.ssh/meinPrivateKey frontend/index.html ubuntu@${{secrets.EC2_IP}}:/home/ubuntu/index.html
                 ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "sudo cp /home/ubuntu/index.html /var/www/html/index.html"
+            
+            - name: installCowsay
+              run: ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "sudo apt update -y && sudo apt install -y cowsay"
+
+            - name: runCowsay
+              run: ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} 'cowsay "Hallo aus den Github Actions!"'
