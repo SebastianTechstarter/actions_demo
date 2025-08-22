@@ -29,24 +29,24 @@ jobs:
     docker-test-job:
         needs: deploy
         runs-on: ubuntu-latest
-            -name: checkout
-             uses: actions/checkout@v5
+            - name: checkout
+              uses: actions/checkout@v5
 
-            -name: ssh setup
-             run: | 
+            - name: ssh setup
+              run: | 
                 mkdir -p ~/.ssh
                 echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/meinPrivateKey
                 chmod 400 ~/.ssh/meinPrivateKey
                 ssh-keyscan -H ${{secrets.EC2_IP}}  >> ~/.ssh/known_hosts
 
-            -name: install docker
-            run: |
+            - name: install docker
+              run: |
                 ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "sudo apt update"
                 ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "sudo apt install docker.io -y"
                 ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "sudo usermod -aG docker ubuntu
 
-            -name: start frontend container on ec2 instance
-            run: |
+            - name: start frontend container on ec2 instance
+              run: |
                   scp -i ~/.ssh/meinPrivateKey -r frontend ubuntu@${{secrets.EC2_IP}}:/home/ubuntu
                   ssh -i ~/.ssh/meinPrivateKey ubuntu@${{secrets.EC2_IP}} "
                     docker build -t frontend-image /home/ubuntu/frontend
